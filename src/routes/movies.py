@@ -19,7 +19,7 @@ router = APIRouter()
 
 
 def make_rel_link(p: int, per_page: int) -> str:
-    return f"{"/theater/movies/"}?page={p}&per_page={per_page}"
+    return f"{'/theater/movies/'}?page={p}&per_page={per_page}"
 
 
 async def _get_or_create_many(db: AsyncSession, model, names: List[str]):
