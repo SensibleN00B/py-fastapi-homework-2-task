@@ -1,16 +1,11 @@
 import random
 
 import pytest
-from sqlalchemy import select, func
+from sqlalchemy import func, select
 from sqlalchemy.orm import joinedload
 
 from database import MovieModel
-from database.models import (
-    GenreModel,
-    ActorModel,
-    LanguageModel,
-    CountryModel
-)
+from database.models import ActorModel, CountryModel, GenreModel, LanguageModel
 
 
 @pytest.mark.asyncio

@@ -1,25 +1,18 @@
 import asyncio
 import math
-from typing import List, Dict, Tuple
+from typing import Dict, List, Tuple
 
 import pandas as pd
 from sqlalchemy import insert, select
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.ext.asyncio import AsyncSession
 from tqdm import tqdm
 
 from config import get_settings
-from database.models import (
-    CountryModel,
-    GenreModel,
-    ActorModel,
-    MoviesGenresModel,
-    ActorsMoviesModel,
-    LanguageModel,
-    MoviesLanguagesModel,
-    MovieModel
-)
 from database import get_db_contextmanager
+from database.models import (ActorModel, ActorsMoviesModel, CountryModel,
+                             GenreModel, LanguageModel, MovieModel,
+                             MoviesGenresModel, MoviesLanguagesModel)
 
 CHUNK_SIZE = 1000
 
