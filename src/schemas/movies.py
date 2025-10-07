@@ -98,7 +98,6 @@ class MovieListResponseSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-
 class MovieCreateSchema(BaseModel):
     name: str
     date: date
@@ -113,7 +112,6 @@ class MovieCreateSchema(BaseModel):
     languages: List[str] = []
 
     model_config = ConfigDict(from_attributes=True)
-
 
     @field_validator("country", mode="before")
     @classmethod
