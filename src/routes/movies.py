@@ -149,7 +149,7 @@ async def create_movie(
         )
         db.add(movie)
         await db.commit()
-        await db.refresh(movie, ["country", "genres", "actors", "languages"])
+        _ = movie.country, movie.genres, movie.actors, movie.languages
 
         return MovieDetailSchema.model_validate(movie)
 

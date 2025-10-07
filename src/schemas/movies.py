@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from typing import List, Optional
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 
 from database.models import MovieStatusEnum
 
@@ -95,9 +95,8 @@ class MovieListResponseSchema(BaseModel):
     total_pages: int
     total_items: int
 
-    model_config = {
-        "from_attributes": True
-    }
+    model_config = ConfigDict(from_attributes=True)
+
 
 
 class MovieCreateSchema(BaseModel):
@@ -113,9 +112,8 @@ class MovieCreateSchema(BaseModel):
     actors: List[str] = []
     languages: List[str] = []
 
-    model_config = {
-        "from_attributes": True
-    }
+    model_config = ConfigDict(from_attributes=True)
+
 
     @field_validator("country", mode="before")
     @classmethod
