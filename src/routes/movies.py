@@ -22,7 +22,7 @@ def make_rel_link(p: int, per_page: int) -> str:
     return f"{'/theater/movies/'}?page={p}&per_page={per_page}"
 
 
-async def _get_or_create_many(db: AsyncSession, model, names: List[str]):
+async def get_or_create_many(db: AsyncSession, model, names: List[str]):
     out = []
     for name in names or []:
         q = await db.execute(select(model).where(model.name == name))
@@ -130,9 +130,9 @@ async def create_movie(
                 db.add(country)
                 await db.flush()
 
-        genres = await _get_or_create_many(db, GenreModel, movie_data.genres)
-        actors = await _get_or_create_many(db, ActorModel, movie_data.actors)
-        languages = await _get_or_create_many(db, LanguageModel, movie_data.languages)
+        genres = await get_or_create_many(db, GenreModel, movie_data.genres)
+        actors = await get_or_create_many(db, ActorModel, movie_data.actors)
+        languages = await get_or_create_many(db, LanguageModel, movie_data.languages)
 
         movie = MovieModel(
             name=movie_data.name,

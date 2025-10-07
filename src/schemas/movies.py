@@ -1,9 +1,15 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from typing import List, Optional
 
 from pydantic import BaseModel, Field, field_validator, ConfigDict
 
 from database.models import MovieStatusEnum
+
+
+def validate_date(release_date: date) -> date:
+    if release_date > (date.today() + timedelta(days=365)):
+        raise ValueError("Date must be within 365 days from today")
+    return release_date
 
 
 class LanguageSchema(BaseModel):
@@ -99,7 +105,7 @@ class MovieListResponseSchema(BaseModel):
 
 
 class MovieCreateSchema(BaseModel):
-    name: str
+    name: str = Field(..., max_length=255)
     date: date
     score: float = Field(..., ge=0, le=100)
     overview: str
@@ -128,9 +134,14 @@ class MovieCreateSchema(BaseModel):
     def normalize_list_fields(cls, value: List[str]) -> List[str]:
         return [item.title() for item in value]
 
+    @field_validator("date")
+    @classmethod
+    def date_limit(cls, value: date) -> date:
+        return validate_date(value)
+
 
 class MovieUpdateSchema(BaseModel):
-    name: Optional[str] = None
+    name: Optional[str] = Field(None, max_length=255)
     date: Optional[date] = None
     score: Optional[float] = Field(None, ge=0, le=100)
     overview: Optional[str] = None
@@ -141,3 +152,8 @@ class MovieUpdateSchema(BaseModel):
     model_config = {
         "from_attributes": True
     }
+
+    @field_validator("date")
+    @classmethod
+    def date_limit(cls, value: Optional[date]) -> Optional[date]:
+        return value if not value else validate_date(value)
